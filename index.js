@@ -15,7 +15,10 @@ const {
 } = require('discord.js');
 
 const client = new Client({
-    intents: [GatewayIntentBits.Guilds]
+    intents: [
+        GatewayIntentBits.Guilds,
+        GatewayIntentBits.GuildMembers // 👈 OBBLIGATORIO per welcome
+    ]
 });
 
 client.commands = new Collection();
@@ -30,6 +33,26 @@ for (const file of commandFiles) {
 
 client.once(Events.ClientReady, () => {
     console.log(`✅ Bot online come ${client.user.tag}`);
+});
+
+// ================= WELCOME SYSTEM =================
+client.on(Events.GuildMemberAdd, async member => {
+
+    const channel = member.guild.channels.cache.get('1496581427993772072');
+    if (!channel) return;
+
+    const embed = new EmbedBuilder()
+        .setTitle('👋 Benvenuto nel server!')
+        .setDescription(`Ciao ${member}, benvenuto nel **Partito RP** 🇮🇹`)
+        .addFields(
+            { name: '📌 Regole', value: 'Leggi le regole prima di iniziare.' },
+            { name: '🗳️ Ruolo', value: 'Richiedi il tesseramento per partecipare al partito.' }
+        )
+        .setColor('Blue')
+        .setThumbnail(member.user.displayAvatarURL())
+        .setFooter({ text: `Utente numero ${member.guild.memberCount}` });
+
+    channel.send({ embeds: [embed] });
 });
 
 // ================= INTERACTION =================
