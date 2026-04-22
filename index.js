@@ -17,7 +17,7 @@ const {
 const client = new Client({
     intents: [
         GatewayIntentBits.Guilds,
-        GatewayIntentBits.GuildMembers // 👈 OBBLIGATORIO per welcome
+        GatewayIntentBits.GuildMembers // 👈 OBBLIGATORIO per benvenuto
     ]
 });
 
@@ -35,25 +35,41 @@ client.once(Events.ClientReady, () => {
     console.log(`✅ Bot online come ${client.user.tag}`);
 });
 
+
 // ================= WELCOME SYSTEM =================
 client.on(Events.GuildMemberAdd, async member => {
 
-    const channel = member.guild.channels.cache.get('1496581427993772072');
+    const channelId = '1496581427993772072';
+
+    const channel = member.guild.channels.cache.get(channelId);
     if (!channel) return;
 
+    const role1 = '1496564525250515016';
+    const role2 = '1496564789239873797';
+
+    try {
+        await member.roles.add(role1);
+        await member.roles.add(role2);
+    } catch (err) {
+        console.log('Errore assegnazione ruoli:', err);
+    }
+
     const embed = new EmbedBuilder()
-        .setTitle('👋 Benvenuto nel server!')
-        .setDescription(`Ciao ${member}, benvenuto nel **Partito RP** 🇮🇹`)
-        .addFields(
-            { name: '📌 Regole', value: 'Leggi le regole prima di iniziare.' },
-            { name: '🗳️ Ruolo', value: 'Richiedi il tesseramento per partecipare al partito.' }
+        .setTitle('🎉 Benvenuto nel Partito RP!')
+        .setDescription(
+            `👋 Ciao ${member}, benvenuto nel server!\n\n` +
+            `📌 Sei appena entrato nel nostro **partito politico RP**.\n` +
+            `🏛️ Qui potrai partecipare ad attività, elezioni e roleplay politico.\n\n` +
+            `📖 Leggi le regole e richiedi il tesseramento per iniziare la tua esperienza.\n\n` +
+            `🎯 Buon divertimento!`
         )
-        .setColor('Blue')
+        .setColor('Green')
         .setThumbnail(member.user.displayAvatarURL())
-        .setFooter({ text: `Utente numero ${member.guild.memberCount}` });
+        .setTimestamp();
 
     channel.send({ embeds: [embed] });
 });
+
 
 // ================= INTERACTION =================
 client.on(Events.InteractionCreate, async interaction => {
@@ -81,7 +97,7 @@ client.on(Events.InteractionCreate, async interaction => {
         const isStaff = member.roles.cache.has(staffRoleId);
         const isAdmin = member.permissions.has('Administrator');
 
-        // bottone panel → apre modal
+        // bottone panel → modal
         if (interaction.customId === 'tesseramento_btn') {
 
             const modal = new ModalBuilder()
@@ -110,8 +126,8 @@ client.on(Events.InteractionCreate, async interaction => {
 
         // ACCETTA
         if (interaction.customId.startsWith('accept_')) {
-            const userId = interaction.customId.split('_')[1];
 
+            const userId = interaction.customId.split('_')[1];
             const user = await interaction.guild.members.fetch(userId).catch(() => null);
 
             if (!user) {
