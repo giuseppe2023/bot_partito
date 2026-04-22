@@ -58,10 +58,7 @@ client.on(Events.GuildMemberAdd, async member => {
         .setTitle('🎉 Benvenuto nel Partito RP!')
         .setDescription(
             `👋 Ciao ${member}, benvenuto nel server!\n\n` +
-            `📌 Sei appena entrato nel nostro **partito politico RP**.\n` +
-            `🏛️ Qui potrai partecipare ad attività, elezioni e roleplay politico.\n\n` +
-            `📖 Leggi le regole e richiedi il tesseramento per iniziare la tua esperienza.\n\n` +
-            `🎯 Buon divertimento!`
+            `Sei appena entrato nel nostro server ${member.guild.name}.\n`
         )
         .setColor('Green')
         .setThumbnail(member.user.displayAvatarURL())
