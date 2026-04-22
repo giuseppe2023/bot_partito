@@ -20,7 +20,8 @@ const client = new Client({
         GatewayIntentBits.GuildMembers // 👈 OBBLIGATORIO per benvenuto
     ]
 });
-
+const express = require('express');
+const app = express();
 client.commands = new Collection();
 
 const fs = require('fs');
@@ -33,6 +34,14 @@ for (const file of commandFiles) {
 
 client.once(Events.ClientReady, () => {
     console.log(`✅ Bot online come ${client.user.tag}`);
+});
+
+app.get('/', (req, res) => {
+    res.send('Bot online');
+});
+
+app.listen(3000, () => {
+    console.log('🌐 Web server attivo');
 });
 
 
