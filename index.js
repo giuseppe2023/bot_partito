@@ -36,14 +36,15 @@ client.once(Events.ClientReady, () => {
     console.log(`✅ Bot online come ${client.user.tag}`);
 });
 
+const PORT = process.env.PORT || 3000;
+
 app.get('/', (req, res) => {
     res.send('Bot online');
 });
 
-app.listen(3000, () => {
-    console.log('🌐 Web server attivo');
+app.listen(PORT, () => {
+    console.log(`🌐 Server attivo sulla porta ${PORT}`);
 });
-
 
 // ================= WELCOME SYSTEM =================
 client.on(Events.GuildMemberAdd, async member => {
