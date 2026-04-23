@@ -66,10 +66,10 @@ client.on(Events.GuildMemberAdd, async member => {
 
     const embed = new EmbedBuilder()
         .setAuthor({
-    name: 'Benvenuto nel server ${member.guild.name}!',
+    name: `Benvenuto nel server ${member.guild.name}!`,
     iconURL: member.user.displayAvatarURL({ dynamic: true })
   })
-        .setDescription(`Benvenuti nel server ufficiale di **${member.guild.name}**.
+        .setDescription(`Benvenuto ${member} nel server ufficiale di **${member.guild.name}**.
             
             *Questo spazio nasce con l’obiettivo di riunire tutte le persone che condividono la volontà di costruire una città migliore, attraverso confronto, idee e partecipazione attiva. Qui potrete restare aggiornati sulle iniziative del partito, partecipare alle discussioni e contribuire concretamente allo sviluppo dei nostri progetti.
             
