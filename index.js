@@ -71,13 +71,12 @@ client.on(Events.GuildMemberAdd, async member => {
   })
         .setDescription(`Benvenuto ${member} nel server ufficiale di **${member.guild.name}**.
             
-            *Questo spazio nasce con l’obiettivo di riunire tutte le persone che condividono la volontà di costruire una città migliore, attraverso confronto, idee e partecipazione attiva. Qui potrete restare aggiornati sulle iniziative del partito, partecipare alle discussioni e contribuire concretamente allo sviluppo dei nostri progetti.
+            *Questo spazio nasce con l’obiettivo di riunire tutte le persone che condividono la volontà di costruire una città migliore, attraverso confronto, idee e partecipazione attiva. Qui potrete restare aggiornati sulle iniziative del partito, partecipare alle discussioni e contribuire concretamente allo sviluppo dei nostri progetti.*
             
-            Invitiamo tutti a mantenere un comportamento rispettoso e collaborativo: il dialogo è il nostro punto di forza.
+            *Invitiamo tutti a mantenere un comportamento rispettoso e collaborativo: il dialogo è il nostro punto di forza.*
             
-            Roma ha bisogno di impegno, visione e unità. **Insieme possiamo fare la differenza**.
-            
-            __Buona permanenza.__*`
+            *Roma ha bisogno di impegno, visione e unità. **Insieme possiamo fare la differenza.***            
+            __Buona permanenza.__`
         )
         .setColor('Green')
         .setThumbnail("https://media.discordapp.net/attachments/1496516547517349959/1496516547970072626/image-removebg-preview_30.png?ex=69eb7ca4&is=69ea2b24&hm=b4ee948b7a9f35f14b5dbd6c166b5e99d3329244f1769e438fb3e6d3a3fd8f2f&=&format=webp&quality=lossless&width=625&height=625")
