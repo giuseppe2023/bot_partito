@@ -212,10 +212,12 @@ client.on(Events.InteractionCreate, async interaction => {
 
             const embed = new EmbedBuilder()
                 .setTitle('📩 Nuova richiesta tesseramento')
-                .addFields(
-                    { name: '👤 Utente', value: `<@${userId}> (${userId})` },
-                    { name: '📝 Motivo', value: motivo }
-                )
+                .setDescription(`**Utente: ${member}**
+**Nome RP: ${interaction.fields.getTextInputValue('nome')}**
+**Cognome RP: ${interaction.fields.getTextInputValue('cognome')}**
+**Data di nascita: ${interaction.fields.getTextInputValue('data_nascita')}**
+**Cittadinanza: ${interaction.fields.getTextInputValue('cittadinanza')}**
+**Come hai conosciuto il partito: ${interaction.fields.getTextInputValue('conoscenza')}**`)
                 .setColor('Green')
                 .setTimestamp();
 
