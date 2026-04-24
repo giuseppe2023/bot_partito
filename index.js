@@ -17,11 +17,13 @@ const {
 const client = new Client({
     intents: [
         GatewayIntentBits.Guilds,
-        GatewayIntentBits.GuildMembers // 👈 OBBLIGATORIO per benvenuto
+        GatewayIntentBits.GuildMembers
     ]
 });
+
 const express = require('express');
 const app = express();
+
 client.commands = new Collection();
 
 const fs = require('fs');
@@ -50,7 +52,6 @@ app.listen(PORT, () => {
 client.on(Events.GuildMemberAdd, async member => {
 
     const channelId = '1496581427993772072';
-
     const channel = member.guild.channels.cache.get(channelId);
     if (!channel) return;
 
@@ -66,20 +67,16 @@ client.on(Events.GuildMemberAdd, async member => {
 
     const embed = new EmbedBuilder()
         .setAuthor({
-    name: `Benvenuto nel server ${member.guild.name}!`,
-    iconURL: member.user.displayAvatarURL({ dynamic: true })
-  })
+            name: `Benvenuto nel server ${member.guild.name}!`,
+            iconURL: member.user.displayAvatarURL({ dynamic: true })
+        })
         .setDescription(`*Benvenuto ${member} nel server ufficiale di **${member.guild.name}**.*
-            
-*Questo spazio nasce con l’obiettivo di riunire tutte le persone che condividono la volontà di costruire una città migliore, attraverso confronto, idee e partecipazione attiva. Qui potrete restare aggiornati sulle iniziative del partito, partecipare alle discussioni e contribuire concretamente allo sviluppo dei nostri progetti.*
-            
-*Invitiamo tutti a mantenere un comportamento rispettoso e collaborativo: il dialogo è il nostro punto di forza.*
-            
-*Roma ha bisogno di impegno, visione e unità. **Insieme possiamo fare la differenza.***            
-__Buona permanenza.__`
-        )
+
+*Questo spazio nasce con l’obiettivo di riunire tutte le persone che condividono la volontà di costruire una città migliore.*
+
+__Buona permanenza.__`)
         .setColor('Green')
-        .setThumbnail("https://media.discordapp.net/attachments/1496516547517349959/1496516547970072626/image-removebg-preview_30.png?ex=69eb7ca4&is=69ea2b24&hm=b4ee948b7a9f35f14b5dbd6c166b5e99d3329244f1769e438fb3e6d3a3fd8f2f&=&format=webp&quality=lossless&width=625&height=625")
+        .setThumbnail("https://media.discordapp.net/attachments/1496516547517349959/1496516547970072626/image-removebg-preview_30.png")
         .setTimestamp();
 
     channel.send({ embeds: [embed] });
@@ -109,57 +106,58 @@ client.on(Events.InteractionCreate, async interaction => {
 
         const member = interaction.member;
 
+        // ✅ PRIMA modal (fix errore 10062)
+        if (interaction.customId === 'tesseramento_btn') {
+
+            const modal = new ModalBuilder()
+                .setCustomId('tesseramento_modal')
+                .setTitle('Richiesta Tesseramento');
+
+            const nome = new TextInputBuilder()
+                .setCustomId('nome')
+                .setLabel('Nome RP')
+                .setStyle(TextInputStyle.Short)
+                .setRequired(true);
+
+            const cognome = new TextInputBuilder()
+                .setCustomId('cognome')
+                .setLabel('Cognome RP')
+                .setStyle(TextInputStyle.Short)
+                .setRequired(true);
+
+            const dataNascita = new TextInputBuilder()
+                .setCustomId('data_nascita')
+                .setLabel('Data di nascita')
+                .setStyle(TextInputStyle.Short)
+                .setRequired(true);
+
+            const cittadinanza = new TextInputBuilder()
+                .setCustomId('cittadinanza')
+                .setLabel('Cittadinanza')
+                .setStyle(TextInputStyle.Short)
+                .setRequired(true);
+
+            const conoscenza = new TextInputBuilder()
+                .setCustomId('conoscenza')
+                .setLabel('Come hai conosciuto il partito?')
+                .setStyle(TextInputStyle.Paragraph)
+                .setRequired(true);
+
+            modal.addComponents(
+                new ActionRowBuilder().addComponents(nome),
+                new ActionRowBuilder().addComponents(cognome),
+                new ActionRowBuilder().addComponents(dataNascita),
+                new ActionRowBuilder().addComponents(cittadinanza),
+                new ActionRowBuilder().addComponents(conoscenza)
+            );
+
+            return interaction.showModal(modal);
+        }
+
+        // protezione staff
         const isStaff = member.roles.cache.has(staffRoleId);
         const isAdmin = member.permissions.has('Administrator');
 
-        if (interaction.customId === 'tesseramento_btn') {
-
-    const modal = new ModalBuilder()
-        .setCustomId('tesseramento_modal')
-        .setTitle('Richiesta Tesseramento');
-
-    const nome = new TextInputBuilder()
-        .setCustomId('nome')
-        .setLabel('Nome RP')
-        .setStyle(TextInputStyle.Short)
-        .setRequired(true);
-
-    const cognome = new TextInputBuilder()
-        .setCustomId('cognome')
-        .setLabel('Cognome RP')
-        .setStyle(TextInputStyle.Short)
-        .setRequired(true);
-
-    const dataNascita = new TextInputBuilder()
-        .setCustomId('data_nascita')
-        .setLabel('Data di nascita')
-        .setStyle(TextInputStyle.Short)
-        .setPlaceholder('GG/MM/AAAA')
-        .setRequired(true);
-
-    const cittadinanza = new TextInputBuilder()
-        .setCustomId('cittadinanza')
-        .setLabel('Cittadinanza')
-        .setStyle(TextInputStyle.Short)
-        .setRequired(true);
-
-    const conoscenza = new TextInputBuilder()
-        .setCustomId('conoscenza')
-        .setLabel('Come hai conosciuto il partito?')
-        .setStyle(TextInputStyle.Paragraph)
-        .setRequired(true);
-
-    const row1 = new ActionRowBuilder().addComponents(nome);
-    const row2 = new ActionRowBuilder().addComponents(cognome);
-    const row3 = new ActionRowBuilder().addComponents(dataNascita);
-    const row4 = new ActionRowBuilder().addComponents(cittadinanza);
-    const row5 = new ActionRowBuilder().addComponents(conoscenza);
-
-    modal.addComponents(row1, row2, row3, row4, row5);
-
-    return interaction.showModal(modal);
-}
-        // protezione staff
         if (!isStaff && !isAdmin) {
             return interaction.reply({
                 content: '❌ Non hai permessi per usare questi pulsanti',
@@ -244,5 +242,9 @@ client.on(Events.InteractionCreate, async interaction => {
     }
 
 });
+
+// evita crash
+client.on('error', console.error);
+process.on('unhandledRejection', console.error);
 
 client.login(process.env.TOKEN);
