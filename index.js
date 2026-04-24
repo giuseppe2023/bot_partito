@@ -210,7 +210,7 @@ client.on(Events.InteractionCreate, async interaction => {
 
             const embed = new EmbedBuilder()
                 .setTitle('📩 Nuova richiesta tesseramento')
-                .setDescription(`**Utente: ${member}**
+                .setDescription(`**Utente: ${interaction.user}**
 **Nome RP: ${interaction.fields.getTextInputValue('nome')}**
 **Cognome RP: ${interaction.fields.getTextInputValue('cognome')}**
 **Data di nascita: ${interaction.fields.getTextInputValue('data_nascita')}**
