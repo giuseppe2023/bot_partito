@@ -24,8 +24,10 @@ module.exports = {
         if (!channel) return interaction.reply({ content: '❌ Canale non trovato', ephemeral: true });
 
         const embed = new EmbedBuilder()
-            .setTitle('📋 Tesseramento')
-            .setDescription('Premi il pulsante per richiedere il tesseramento')
+            .setTitle('📋 Tesseramento partito')
+            .setDescription('**Premi il pulsante per richiedere il tesseramento con il nostro partito**')
+            .setFooter('Il tesseramento è gratuito e aperto a tutti!')
+            .setThumbnail(`${interaction.guild.iconURL()}`)
             .setColor('Blue');
 
         const button = new ButtonBuilder()
