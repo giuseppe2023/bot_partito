@@ -26,7 +26,7 @@ module.exports = {
         const embed = new EmbedBuilder()
             .setTitle('📋 Tesseramento partito')
             .setDescription('**Premi il pulsante per richiedere il tesseramento con il nostro partito**')
-            .setFooter('Il tesseramento è gratuito e aperto a tutti!')
+            .setFooter({ text: 'Il tesseramento è gratuito e aperto a tutti!' })
             .setThumbnail(`${interaction.guild.iconURL()}`)
             .setColor('Blue');
 
