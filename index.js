@@ -112,25 +112,53 @@ client.on(Events.InteractionCreate, async interaction => {
         const isStaff = member.roles.cache.has(staffRoleId);
         const isAdmin = member.permissions.has('Administrator');
 
-        // bottone panel → modal
         if (interaction.customId === 'tesseramento_btn') {
 
-            const modal = new ModalBuilder()
-                .setCustomId('tesseramento_modal')
-                .setTitle('Richiesta Tesseramento');
+    const modal = new ModalBuilder()
+        .setCustomId('tesseramento_modal')
+        .setTitle('Richiesta Tesseramento');
 
-            const motivo = new TextInputBuilder()
-                .setCustomId('motivo')
-                .setLabel('Motivo Tesseramento')
-                .setStyle(TextInputStyle.Paragraph)
-                .setRequired(true);
+    const nome = new TextInputBuilder()
+        .setCustomId('nome')
+        .setLabel('Nome RP')
+        .setStyle(TextInputStyle.Short)
+        .setRequired(true);
 
-            const row = new ActionRowBuilder().addComponents(motivo);
-            modal.addComponents(row);
+    const cognome = new TextInputBuilder()
+        .setCustomId('cognome')
+        .setLabel('Cognome RP')
+        .setStyle(TextInputStyle.Short)
+        .setRequired(true);
 
-            return interaction.showModal(modal);
-        }
+    const dataNascita = new TextInputBuilder()
+        .setCustomId('data_nascita')
+        .setLabel('Data di nascita')
+        .setStyle(TextInputStyle.Short)
+        .setPlaceholder('GG/MM/AAAA')
+        .setRequired(true);
 
+    const cittadinanza = new TextInputBuilder()
+        .setCustomId('cittadinanza')
+        .setLabel('Cittadinanza')
+        .setStyle(TextInputStyle.Short)
+        .setRequired(true);
+
+    const conoscenza = new TextInputBuilder()
+        .setCustomId('conoscenza')
+        .setLabel('Come hai conosciuto il partito?')
+        .setStyle(TextInputStyle.Paragraph)
+        .setRequired(true);
+
+    const row1 = new ActionRowBuilder().addComponents(nome);
+    const row2 = new ActionRowBuilder().addComponents(cognome);
+    const row3 = new ActionRowBuilder().addComponents(dataNascita);
+    const row4 = new ActionRowBuilder().addComponents(cittadinanza);
+    const row5 = new ActionRowBuilder().addComponents(conoscenza);
+
+    modal.addComponents(row1, row2, row3, row4, row5);
+
+    return interaction.showModal(modal);
+}
         // protezione staff
         if (!isStaff && !isAdmin) {
             return interaction.reply({
