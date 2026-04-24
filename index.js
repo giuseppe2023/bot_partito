@@ -203,8 +203,6 @@ client.on(Events.InteractionCreate, async interaction => {
 
         if (interaction.customId === 'tesseramento_modal') {
 
-            const motivo = interaction.fields.getTextInputValue('motivo');
-
             const staffChannel = interaction.guild.channels.cache.get('1496572681993326655');
             if (!staffChannel) return;
 
