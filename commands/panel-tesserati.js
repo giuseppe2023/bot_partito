@@ -13,7 +13,6 @@ module.exports = {
 
     async execute(interaction) {
 
-        console.log("BOT PID:", process.pid);
 
         // ⬇️ BLOCCA SUBITO L'INTERACTION (fix 10062)
         await interaction.deferReply({ ephemeral: true });
