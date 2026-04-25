@@ -55,3 +55,4 @@ __Vi invitiamo a inserire informazioni corrette per evitare ritardi nella proced
         });
     }
 };
+console.log("BOT PID:", process.pid);
