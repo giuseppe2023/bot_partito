@@ -13,15 +13,23 @@ module.exports = {
 
     async execute(interaction) {
 
+        console.log("BOT PID:", process.pid);
+
+        // ⬇️ BLOCCA SUBITO L'INTERACTION (fix 10062)
+        await interaction.deferReply({ ephemeral: true });
+
         if (interaction.user.id !== '959444239622733834') {
-            return interaction.reply({
-                content: '❌ Non puoi usare questo comando',
-                ephemeral: true
+            return interaction.editReply({
+                content: '❌ Non puoi usare questo comando'
             });
         }
 
         const channel = interaction.guild.channels.cache.get('1496523864748982272');
-        if (!channel) return interaction.reply({ content: '❌ Canale non trovato', ephemeral: true });
+        if (!channel) {
+            return interaction.editReply({ 
+                content: '❌ Canale non trovato' 
+            });
+        }
 
         const embed = new EmbedBuilder()
             .setTitle('**TESSERAMENTO - INSIEME PER ROMA**')
@@ -49,10 +57,9 @@ __Vi invitiamo a inserire informazioni corrette per evitare ritardi nella proced
             components: [row]
         });
 
-        await interaction.reply({
-            content: '✅ Panel inviato!',
-            ephemeral: true
+        // ⬇️ risposta finale corretta
+        await interaction.editReply({
+            content: '✅ Panel inviato!'
         });
     }
 };
-console.log("BOT PID:", process.pid);
